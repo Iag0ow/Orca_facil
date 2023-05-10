@@ -1,0 +1,8 @@
+    .navbar{
+    background-image: url('../../image/background_img.jpg');
+    background-size: contain;
+    color: white !important;
+    }
+    .nav-link{
+        color: white;
+    }

@@ -1,0 +1,9 @@
+.products-table{
+    justify-content: space-around !important;
+}
+.table-itens{
+    background-color: white;
+}
+.pointer{
+    cursor: pointer;
+}

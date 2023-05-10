@@ -1,0 +1,6 @@
+aside{
+    min-width: 250px;
+    background-image: url('../../image/background_img.jpg');
+    background-size: contain;
+    color: white;
+}

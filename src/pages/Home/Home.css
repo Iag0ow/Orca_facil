@@ -1,0 +1,32 @@
+.category-box{
+    justify-content: space-between;
+    margin-top: 150px;
+}
+
+.category{
+    width: 400px;
+    height: 250px;
+    transition: 1s;
+    cursor: pointer;
+}
+
+.category:hover{
+    scale: 1.1;
+    transition: 1s;
+}
+.hidraulica{
+border: 1px solid red;
+background-image: url('../../image/hidraulica.png');
+background-size: cover;
+}
+.eletrica{
+border: 1px solid red;
+background-image: url('../../image/eletrica.png');
+background-size: cover;
+}
+
+.fundacao{
+border: 1px solid red;
+background-image: url('../../image/fundacao.jpg');
+background-size: cover;
+}
