@@ -1,4 +1,5 @@
 import React from "react";
+import "./Menu.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getProducts, setProduct } from "../../../utils/Config";
@@ -36,7 +37,7 @@ const Menus = ({ category, setProducts }) => {
 
   return (
     <>
-      <div className="d-flex"></div>
+      <div className="d-flex menu"></div>
       <button
         type="button"
         className="btn btn-primary me-3"

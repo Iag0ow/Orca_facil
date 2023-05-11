@@ -5,3 +5,17 @@
 body{
   background-color: rgb(233, 230, 230);
 }
+
+
+.my-custom-scrollbar {
+position: relative;
+height: 486px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+.table-itens{
+  height: 70vh;
+  overflow: hidden;
+}
