@@ -134,7 +134,7 @@ const Menus = ({ category, setProducts }) => {
         className="btn btn-success"
         to="/cadastrar/produto"
       >
-        Criar orça Flinston
+        Criar orçamento
       </button>
       <div className="d-flex justify-content-end">
         <Link to="/" type="button" className="btn btn-danger">
