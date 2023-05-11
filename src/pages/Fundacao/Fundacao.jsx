@@ -1,29 +1,54 @@
 import React from "react";
+import "./Fundacao.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getProducts } from "../../../utils/Config";
+import { getProducts, getProduct, updateProduct } from "../../../utils/Config";
 import Menus from "../../components/Menus/Menus";
-import "./Fundacao.css";
+import NavBar from "../../components/NavBar/NavBar";
 const Fundacao = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [brand, setBrand] = useState("");
+  const [updated, setUpdated] = useState("");
   useEffect(() => {
     async function fetchData() {
       setProducts(await getProducts("STRUCTURAL"));
     }
     fetchData();
-  }, []);
+  }, [updated]);
+  const editItens = async (id) => {
+    const values = await getProduct(id);
+    setName(values.name);
+    setPrice(values.price);
+    setBrand(values.brand);
+    setId(id);
+  };
+  const updateProducts = async (e) => {
+    e.preventDefault();
+    const updateBody = {
+      name,
+      price,
+      brand,
+    };
+    const updated = await updateProduct(id, updateBody);
+    setUpdated(updated.name);
+    document.getElementById("closedButton3").click();
+  };
   return (
     <>
+      <NavBar />
       <div className="container table-itens mt-5 p-5">
-        <h1 className="text-center">Orçamento Fundação</h1>
+        <h1 className="text-center title-orc">Produtos</h1>
         <table className="table table-hover">
           <thead>
-            <tr className="table-danger">
+            <tr className="table-color">
               <th>Nome</th>
               <th>Preço</th>
               <th>Marca</th>
-              <th>Ações</th>
+              <th id="actions">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +59,14 @@ const Fundacao = () => {
                   <td>{product.price}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <div className="pointer">
+                    <div
+                      onClick={() => editItens(product._id)}
+                      className="pointer"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal3"
+                      data-bs-whatever="@mdo"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -52,6 +84,88 @@ const Fundacao = () => {
           </tbody>
         </table>
         <Menus category={category} />
+      </div>
+
+      <div
+        className="modal fade"
+        id="exampleModal3"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1
+                className="modal-title fs-5 text-center"
+                id="exampleModalLabel"
+              >
+                Atualizar item
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={updateProducts}>
+                <div className="mb-3">
+                  <label className="col-form-label">Nome*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="col-form-label">Preço*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="col-form-label">Marca*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setBrand(e.target.value)}
+                    value={brand}
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    id="closedButton3"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Fechar
+                  </button>
+                  <button
+                    type="Submit"
+                    id="send"
+                    //data-bs-dismiss="modal"
+                    className="btn btn-primary"
+                  >
+                    Enviar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </>
   );

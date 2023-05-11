@@ -1,9 +1,11 @@
-import React from 'react'
-
+import React from "react";
+import "./Footer.css";
 const Footer = () => {
   return (
-    <footer>Footer</footer>
-  )
-}
+    <footer>
+      <p class="text-center text-white bold">© 2023 Constru Code, Inc</p>
+    </footer>
+  );
+};
 
-export default Footer
+export default Footer;

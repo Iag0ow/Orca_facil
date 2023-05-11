@@ -2,28 +2,54 @@ import React from "react";
 import "./Hidraulica.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { getProducts } from "../../../utils/Config";
+import { getProduct, getProducts, updateProduct } from "../../../utils/Config";
 import Menus from "../../components/Menus/Menus";
+import NavBar from "../../components/NavBar/NavBar";
 const Hidraulica = () => {
   const { category } = useParams();
   const [products, setProducts] = useState([]);
+  const [id, setId] = useState("");
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [brand, setBrand] = useState("");
+  const [updated, setUpdated] = useState("");
   useEffect(() => {
     async function fetchData() {
       setProducts(await getProducts("HYDRAULICS"));
     }
     fetchData();
-  }, []);
+  }, [updated]);
+
+  const editItens = async (id) => {
+    const values = await getProduct(id);
+    setName(values.name);
+    setPrice(values.price);
+    setBrand(values.brand);
+    setId(id);
+  };
+  const updateProducts = async (e) => {
+    e.preventDefault();
+    const updateBody = {
+      name,
+      price,
+      brand,
+    };
+    const updated = await updateProduct(id, updateBody);
+    setUpdated(updated.name);
+    document.getElementById("closedButton5").click();
+  };
   return (
     <>
+      <NavBar />
       <div className="container table-itens mt-5 p-5">
-        <h1 className="text-center">Orçamento Hidraulica</h1>
+        <h1 className="text-center title-orc">Produtos</h1>
         <table className="table table-hover">
           <thead>
-            <tr className="table-danger">
+            <tr className="table-color">
               <th>Nome</th>
               <th>Preço</th>
               <th>Marca</th>
-              <th>Ações</th>
+              <th id="actions">Ações</th>
             </tr>
           </thead>
           <tbody>
@@ -34,7 +60,14 @@ const Hidraulica = () => {
                   <td>{product.price}</td>
                   <td>{product.brand}</td>
                   <td>
-                    <div className="pointer">
+                    <div
+                      onClick={() => editItens(product._id)}
+                      className="pointer"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#exampleModal5"
+                      data-bs-whatever="@mdo"
+                    >
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="16"
@@ -51,8 +84,93 @@ const Hidraulica = () => {
               ))}
           </tbody>
         </table>
-        <Menus category={category} />
+        <Menus category={category} setProducts={setProducts} />
       </div>
+      {/* modal section */}
+
+      <div
+        className="modal fade"
+        id="exampleModal5"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h1
+                className="modal-title fs-5 text-center"
+                id="exampleModalLabel"
+              >
+                Atualizar item
+              </h1>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <form onSubmit={updateProducts}>
+                <div className="mb-3">
+                  <label className="col-form-label">Nome*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setName(e.target.value)}
+                    value={name}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="col-form-label">Preço*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label className="col-form-label">Marca*</label>
+                  <input
+                    required
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                    onChange={(e) => setBrand(e.target.value)}
+                    value={brand}
+                  />
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    id="closedButton5"
+                    className="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Fechar
+                  </button>
+                  <button
+                    type="Submit"
+                    //data-bs-dismiss="modal"
+                    className="btn btn-primary"
+                  >
+                    Enviar
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* <Link type="button" className="btn btn-success" to="/cadastrar/produto">
+        Criar orça Flinston
+      </Link> */}
     </>
   );
 };

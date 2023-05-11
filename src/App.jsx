@@ -14,6 +14,7 @@ import {
 import Hidraulica from "./pages/Hidraulica/Hidraulica";
 import Eletrica from "./pages/Eletrica/Eletrica";
 import Fundacao from "./pages/Fundacao/Fundacao";
+import Footer from "./components/Footer/Footer";
 function App() {
   const user = localStorage.getItem("token");
   const [auth, setAuth] = useState(false);
@@ -64,6 +65,7 @@ function App() {
           />
         </Routes>
       </BrowserRouter>
+      <Footer />
     </div>
   );
 }

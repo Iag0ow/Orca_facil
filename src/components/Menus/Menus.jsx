@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getProducts, setProduct } from "../../../utils/Config";
 const Menus = ({ category, setProducts }) => {
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -17,18 +17,15 @@ const Menus = ({ category, setProducts }) => {
       category,
     };
     const result = await setProduct(objRegister);
-
-    // if (!result.statusCode == 400) {
-    setProducts((prevStatus) => [...prevStatus, objRegister]);
-    setName("");
-    setPrice("");
-    setBrand("");
-    // }
-    // } else {
-    //   setStatus(true);
-    //   setError(result.message);
-    //   console.log();
-    // }
+    if (result.statusCode == 400) {
+      setError(result.message);
+    } else {
+      setProducts((prevStatus) => [...prevStatus, objRegister]);
+      setName("");
+      setPrice("");
+      setBrand("");
+      document.getElementById("closedButton").click();
+    }
   };
   const clear = () => {
     setError("");
@@ -36,6 +33,7 @@ const Menus = ({ category, setProducts }) => {
     setPrice("");
     setBrand("");
   };
+
   return (
     <>
       <div className="d-flex"></div>
@@ -108,38 +106,35 @@ const Menus = ({ category, setProducts }) => {
                 <div className="modal-footer">
                   <button
                     type="button"
+                    id="closedButton"
                     className="btn btn-secondary"
                     data-bs-dismiss="modal"
                     onClick={clear}
                   >
                     Fechar
                   </button>
-                  {status == true ? (
-                    <button
-                      type="Submit"
-                      className="btn btn-primary"
-                      data-bs-dismiss="modal"
-                    >
-                      Enviar
-                    </button>
-                  ) : (
-                    <button
-                      type="Submit"
-                      className="btn btn-primary"
-                      data-bs-dismiss="modal"
-                    >
-                      Enviar
-                    </button>
-                  )}
+                  <button
+                    type="Submit"
+                    id="send"
+                    //data-bs-dismiss="modal"
+                    className="btn btn-primary"
+                  >
+                    Enviar
+                  </button>
                 </div>
               </form>
             </div>
           </div>
         </div>
       </div>
-      <Link type="button" className="btn btn-success" to="/cadastrar/produto">
+      <button
+        disabled
+        type="button"
+        className="btn btn-success"
+        to="/cadastrar/produto"
+      >
         Criar orça Flinston
-      </Link>
+      </button>
       <div className="d-flex justify-content-end">
         <Link to="/" type="button" className="btn btn-danger">
           Voltar

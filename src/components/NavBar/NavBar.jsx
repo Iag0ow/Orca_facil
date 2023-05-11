@@ -1,6 +1,7 @@
 import React from "react";
 import "./NavBar.css";
 import { useState, useEffect } from "react";
+import logo from "../../image/orcafacil-side.png";
 import { Link, Navigate } from "react-router-dom";
 const NavBar = () => {
   const logOut = (handleFunc) => {
@@ -11,11 +12,11 @@ const NavBar = () => {
   const [credentials, setcredentials] = useState(false);
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary ">
+      <nav className="navbar navbar-expand-lg">
         <div className="container-fluid">
-          <a className="navbar-brand text-white" href="#">
-            Navbar
-          </a>
+          <Link className="navbar-brand text-white" to="/">
+            <img src={logo} alt="" />
+          </Link>
           <button
             className="navbar-toggler"
             type="button"
@@ -30,21 +31,26 @@ const NavBar = () => {
           <div className="collapse navbar-collapse" id="navbarNavDropdown">
             <ul className="navbar-nav">
               <li className="nav-item">
-                <a className="nav-link active" aria-current="page" href="#">
+                <Link className="nav-link" to="/">
                   Home
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Features
-                </a>
+                <Link className="nav-link" to="/hidraulica/HIDRAULICS">
+                  Hidráulica
+                </Link>
               </li>
               <li className="nav-item">
-                <a className="nav-link" href="#">
-                  Pricing
-                </a>
+                <Link className="nav-link" to="/eletrica/ELECTRICAL">
+                  Elétrica
+                </Link>
               </li>
               <li className="nav-item">
+                <Link className="nav-link" to="/fundacao/STRUTURAL">
+                  Fundação
+                </Link>
+              </li>
+              <li className="nav-item ">
                 <Link onClick={logOut} className="nav-link">
                   Sair
                 </Link>

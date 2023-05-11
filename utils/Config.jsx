@@ -84,6 +84,40 @@ export const setProduct = async (product) => {
     return result;
   }
 };
+export const getProduct = async (id) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let result = await fetch(`${API}/products/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
+export const updateProduct = async (id, product) => {
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    const config = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(product),
+    };
+    let result = await fetch(`${API}/products/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
 
 // export const getCategories = async () => {
 //   const token = localStorage.getItem("token");
@@ -109,7 +143,8 @@ export const setProduct = async (product) => {
 //       Authorization: `Bearer ${token}`,
 //     },
 //   };
-
+//easybudgetech@gmail.com
+//
 //   const auth = fetch(`${API}/auth/users`, config);
 //   return auth;
 // };
