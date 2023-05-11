@@ -43,7 +43,7 @@ const Fundacao = () => {
       <div className="container mt-5 p-4 bg-white">
         <div className=" table-itens">
           <h1 className="text-center title-orc">Produtos Estruturais</h1>
-          <div class="table-wrapper-scroll-y my-custom-scrollbar">
+          <div className="table-wrapper-scroll-y my-custom-scrollbar">
             <table className="table table-hover">
               <thead>
                 <tr className="table-color">

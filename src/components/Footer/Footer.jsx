@@ -3,7 +3,7 @@ import "./Footer.css";
 const Footer = () => {
   return (
     <footer>
-      <p class="text-center text-white bold">© 2023 Constru Code, Inc</p>
+      <p className="text-center text-white bold">© 2023 Constru Code, Inc</p>
     </footer>
   );
 };
