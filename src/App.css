@@ -1,21 +1,21 @@
-*{
+* {
   margin: 0px;
   padding: 0px;
 }
-body{
+body {
   background-color: rgb(233, 230, 230);
+  overflow: auto;
 }
-
 
 .my-custom-scrollbar {
-position: relative;
-height: 486px;
-overflow: auto;
+  position: relative;
+  height: 486px;
+  overflow: auto;
 }
 .table-wrapper-scroll-y {
-display: block;
+  display: block;
 }
-.table-itens{
-  height: 70vh;
+.table-itens {
+  height: 63vh;
   overflow: hidden;
 }

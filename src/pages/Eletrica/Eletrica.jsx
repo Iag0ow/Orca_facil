@@ -174,7 +174,7 @@ const Eletrica = () => {
         </div>
       </div>
       {/* <Link type="button" className="btn btn-success" to="/cadastrar/produto">
-        Criar orça Flinston
+        Criar orçamento
       </Link> */}
     </>
   );
