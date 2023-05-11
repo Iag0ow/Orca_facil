@@ -67,6 +67,21 @@ export const getProducts = async (category) => {
     return products;
   }
 };
+
+export const formatText = (text) => {
+  text = text.charAt(0).toUpperCase() + text.slice(1);
+  return text;
+};
+
+export const formatPrice = (price) => {
+  price = Number(price).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+  });
+
+  return price;
+};
+
 export const setProduct = async (product) => {
   const token = localStorage.getItem("token");
 

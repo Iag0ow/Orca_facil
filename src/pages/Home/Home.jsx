@@ -28,7 +28,7 @@ const Home = (handleFunc) => {
               <Link to={`fundacao/STRUCTURAL`}>
                 <div className="category fundacao"></div>
               </Link>
-              <h1 className="text-center categories mt-3">Fundação</h1>
+              <h1 className="text-center categories mt-3">Estruturação</h1>
             </div>
           </div>
         </div>
