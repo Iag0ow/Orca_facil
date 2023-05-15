@@ -15,6 +15,8 @@ import Hidraulica from "./pages/Hidraulica/Hidraulica";
 import Eletrica from "./pages/Eletrica/Eletrica";
 import Fundacao from "./pages/Fundacao/Fundacao";
 import Footer from "./components/Footer/Footer";
+import Orcamento from "./pages/Orçamentos/Orcamento";
+import CriarOrcamento from "./pages/CriarOrcamento/CriarOrcamento";
 function App() {
   const user = localStorage.getItem("token");
   const [auth, setAuth] = useState(false);
@@ -62,6 +64,14 @@ function App() {
           <Route
             path="/fundacao/:category"
             element={auth ? <Fundacao /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/orcamento/:id/:category"
+            element={auth ? <Orcamento /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/criar"
+            element={auth ? <CriarOrcamento /> : <Navigate to="/login" />}
           />
         </Routes>
       </BrowserRouter>

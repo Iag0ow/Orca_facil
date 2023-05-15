@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { getProducts, setProduct } from "../../../utils/Config";
 const Menus = ({ category, setProducts }) => {
   const [status, setStatus] = useState(false);
+  const [userId] = useState(localStorage.getItem('user_id'))
   const [error, setError] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -128,14 +129,21 @@ const Menus = ({ category, setProducts }) => {
           </div>
         </div>
       </div>
-      <button
+      {/* <Link
         disabled
         type="button"
         className="btn btn-success"
-        to="/cadastrar/produto"
+        to={`/orcamento/${userId}/${category}`}
       >
         Criar orçamento
-      </button>
+      </Link> */}
+      <Link
+        type="button"
+        className="btn btn-success"
+        to="/criar"
+      >
+        Criar orçamento
+      </Link>
       <div className="d-flex justify-content-end">
         <Link to="/" type="button" className="btn btn-danger">
           Voltar

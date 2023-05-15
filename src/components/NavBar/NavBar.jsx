@@ -6,6 +6,7 @@ import { Link, Navigate } from "react-router-dom";
 const NavBar = () => {
   const logOut = (handleFunc) => {
     localStorage.removeItem("token");
+    localStorage.removeItem("user_id");
     handleFunc(false);
     setcredentials(true);
   };
@@ -48,6 +49,11 @@ const NavBar = () => {
               <li className="nav-item">
                 <Link className="nav-link" to="/fundacao/STRUCTURAL">
                   Estruturação
+                </Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/criar">
+                  Orçamentos
                 </Link>
               </li>
               <li className="nav-item ">

@@ -19,6 +19,7 @@ export const login = async (loginForm) => {
     return authorization;
   } else {
     let authorization = true;
+    localStorage.setItem("user_id", auth.id);
     localStorage.setItem("token", auth.access_token);
     return authorization;
   }
@@ -133,6 +134,98 @@ export const updateProduct = async (id, product) => {
     return result;
   }
 };
+
+export const getProductsByOrc = async (category) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    const auth = await fetch(
+      `${API}/products/names?category=${category}`,
+      config
+    );
+    const products = await auth.json();
+    products.forEach((product) => {
+      (product.name =
+        product.name.charAt(0).toUpperCase() + product.name.slice(1)),
+        (product.brand =
+          product.brand.charAt(0).toUpperCase() + product.brand.slice(1)),
+        (product.price = Number(product.price).toLocaleString("pt-BR", {
+          style: "currency",
+          currency: "BRL",
+        }));
+    });
+    return products;
+  }
+};
+
+export const getCustomersByName = async () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+     
+    let result = await fetch(`${API}/customers/names`, config);
+       result = await result.json();
+    result.forEach((product) => {
+      (product.name =
+        product.name.charAt(0).toUpperCase() + product.name.slice(1))
+    });
+    return result;
+  }
+};
+export const getUsersByName = async () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let result = await fetch(`${API}/users/names`, config);
+    result = await result.json();
+    result.forEach((product) => {
+      product.name =
+        product.name.charAt(0).toUpperCase() + product.name.slice(1);
+    });
+    return result;
+  }
+};
+
+export const setBudget = async (budget) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: budget,
+    };
+
+    let result = await fetch(`${API}/budgets`, config);
+    result = await result.json();
+    console.log('resultado do post: ', result);
+    return result;
+  }
+};
+
+
 
 // export const getCategories = async () => {
 //   const token = localStorage.getItem("token");
