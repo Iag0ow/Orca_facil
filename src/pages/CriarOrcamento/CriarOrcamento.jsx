@@ -11,7 +11,7 @@ import { useState, useEffect } from "react";
 const CriarOrcamento = () => {
   const [customers, setCustomers] = useState([]);
   const [users, setUsers] = useState([]);
-  const [budgedName, setBudgedName] = useState("");
+  const [name, setName] = useState("");
   const [sellerId, setSellerId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [category, setCategory] = useState("");
@@ -31,18 +31,27 @@ const CriarOrcamento = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!customerId == "" && sellerId == "") {
+    if (!customerId == "" && !sellerId == "") {
       const obj = {
-        budgedName,
+        name,
         sellerId,
         customerId,
         category,
       };
-      console.log("objeto enviado: ", obj);
-      const retorno = await setBudget(JSON.stringify(obj));
-      console.log("retorno: ", retorno);
+      clear();
+      // const retorno = await setBudget(JSON.stringify(obj));
+      // if (retorno.name) {
+      //   setStatus(true)
+      //   clear();
+      // }
     }
   };
+  const clear = () => {
+    setName("")
+    setCustomerId(null)
+    setSellerId(null)
+    setCategory("")
+  }
   return (
     <>
       <NavBar />
@@ -83,8 +92,9 @@ const CriarOrcamento = () => {
                         <span className="form-label">Nome do Orçamento</span>
                         <input
                           className="form-control"
-                          onChange={(e) => setBudgedName(e.target.value)}
+                          onChange={(e) => setName(e.target.value)}
                           type="text"
+                          value={name}
                           placeholder="Exemplo orçamento 1..."
                         />
                       </div>
@@ -117,10 +127,11 @@ const CriarOrcamento = () => {
                       <div className="form-group">
                         <span className="form-label">Vendedor</span>
                         <select
+                          defaultValue=""
                           className="form-control"
                           onChange={(e) => setSellerId(e.target.value)}
                         >
-                          <option disabled selected value="">
+                          <option disabled value="">
                             Selecione
                           </option>
                           {users.map((user) => (
@@ -136,12 +147,13 @@ const CriarOrcamento = () => {
                       <div className="form-group">
                         <span className="form-label">Cliente</span>
                         <select
+                          defaultValue=""
                           onChange={(e) => {
                             setCustomerId(e.target.value);
                           }}
                           className="form-control"
                         >
-                          <option disabled selected value="">
+                          <option disabled value="">
                             Selecione
                           </option>
                           {customers.map((customer) => (
@@ -161,7 +173,11 @@ const CriarOrcamento = () => {
                         <select
                           onChange={(e) => setCategory(e.target.value)}
                           className="form-control"
+                          defaultValue=""
                         >
+                          <option disabled value="">
+                            Selecione
+                          </option>
                           <option value="HYDRAULICS">Hidráulica</option>
                           <option value="ELECTRICAL">Elétrica</option>
                           <option value="STRUCTURAL">Estruturação</option>
