@@ -48,8 +48,8 @@ const CriarOrcamento = () => {
   };
   const clear = () => {
     setName("")
-    setCustomerId(null)
-    setSellerId(null)
+    setCustomerId("")
+    setSellerId("")
     setCategory("")
   }
   return (
