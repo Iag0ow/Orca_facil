@@ -251,7 +251,6 @@ const Orcamento = () => {
               defaultValue=""
               className="form-select form-select-lg mb-3"
               aria-label=".form-select-lg example"
-              onChange={handleChange}
             >
               <option disabled value="">
                 Selecione
