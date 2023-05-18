@@ -1,7 +1,7 @@
 import React from "react";
 import "./CriarOrcamento.css";
 import NavBar from "../../components/NavBar/NavBar";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   getCustomersByName,
   getUsersByName,
@@ -12,9 +12,11 @@ const CriarOrcamento = () => {
   const [customers, setCustomers] = useState([]);
   const [users, setUsers] = useState([]);
   const [name, setName] = useState("");
+  const [budgetId, setBudgetId] = useState("")
   const [sellerId, setSellerId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [category, setCategory] = useState("");
+  const [credentials, setCredentials] = useState(false);
   const [status, setStatus] = useState(false);
   useEffect(() => {
     async function fetchData() {
@@ -38,12 +40,13 @@ const CriarOrcamento = () => {
         customerId,
         category,
       };
-      clear();
+      setCredentials(true);
       // const retorno = await setBudget(JSON.stringify(obj));
       // if (retorno.name) {
       //   setStatus(true)
       //   clear();
       // }
+      setBudgetId("645f4f1717e941635282dc48");
     }
   };
   const clear = () => {
@@ -198,6 +201,7 @@ const CriarOrcamento = () => {
           </div>
         </div>
       </div>
+      {credentials && <Navigate to={`/orcamento/${budgetId}/${category}`} />}
     </>
   );
 };

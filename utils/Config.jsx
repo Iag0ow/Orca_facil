@@ -135,7 +135,7 @@ export const updateProduct = async (id, product) => {
   }
 };
 
-export const getProductsByOrc = async (category) => {
+export const getProductsByCategory = async (category) => {
   const token = localStorage.getItem("token");
   if (token) {
     const config = {
@@ -220,13 +220,57 @@ export const setBudget = async (budget) => {
 
     let result = await fetch(`${API}/budgets`, config);
     result = await result.json();
-    console.log('resultado do post: ', result);
     return result;
   }
 };
 
+export const getBudgets = async () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    };
 
+    let result = await fetch(`${API}/budgets`, config);
+    result = await result.json();
+    return result;
+  }
+};
 
+export const getProductsByBudgets = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    };
+    let result = await fetch(`${API}/products-budgets/budgets/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
+export const getBudgetById = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let result = await fetch(`${API}/budgets/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
 // export const getCategories = async () => {
 //   const token = localStorage.getItem("token");
 //   if (token) {
