@@ -256,6 +256,42 @@ export const getProductsByBudgets = async (id) => {
     return result;
   }
 };
+
+export const setProductsInBudgets = async (body) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    };
+    let result = await fetch(`${API}/products-budgets`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
+export const editProductsBudgetById = async (id,body) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    };
+    let result = await fetch(`${API}/products-budgets/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
+
 export const getBudgetById = async (id) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -267,6 +303,22 @@ export const getBudgetById = async (id) => {
       },
     };
     let result = await fetch(`${API}/budgets/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
+export const deleteProductBudgetById = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let result = await fetch(`${API}/products-budgets/${id}`, config);
     result = await result.json();
     return result;
   }
