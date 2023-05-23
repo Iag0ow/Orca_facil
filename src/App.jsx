@@ -17,6 +17,8 @@ import Fundacao from "./pages/Fundacao/Fundacao";
 import Footer from "./components/Footer/Footer";
 import Orcamento from "./pages/Orçamentos/Orcamento";
 import CriarOrcamento from "./pages/CriarOrcamento/CriarOrcamento";
+import OrcamentoEdit from "./pages/OrcamentoEdit/OrcamentoEdit";
+import Opcoes from "./pages/Opçoes/Opcoes";
 function App() {
   const user = localStorage.getItem("token");
   const [auth, setAuth] = useState(false);
@@ -68,6 +70,14 @@ function App() {
           <Route
             path="/orcamento/:id/:category"
             element={auth ? <Orcamento /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/orcamentosEdit/:id/budget/:idBudget"
+            element={auth ? <OrcamentoEdit /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/orcamentos"
+            element={auth ? <Opcoes /> : <Navigate to="/login" />}
           />
           <Route
             path="/criar"

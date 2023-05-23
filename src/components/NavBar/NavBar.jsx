@@ -37,23 +37,8 @@ const NavBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/hidraulica/HIDRAULICS">
-                  Hidráulica
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/eletrica/ELECTRICAL">
-                  Elétrica
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/fundacao/STRUCTURAL">
-                  Estruturação
-                </Link>
-              </li>
-              <li className="nav-item">
-                <Link className="nav-link" to="/criar">
-                  Orçamentos
+                <Link className="nav-link" to="/orcamentos">
+                  Orçamentos
                 </Link>
               </li>
               <li className="nav-item ">

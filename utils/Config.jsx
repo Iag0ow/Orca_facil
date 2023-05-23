@@ -76,8 +76,8 @@ export const formatText = (text) => {
 
 export const formatPrice = (price) => {
   price = Number(price).toLocaleString("pt-BR", {
-      style: "currency",
-      currency: "BRL",
+    style: "currency",
+    currency: "BRL",
   });
 
   return price;
@@ -152,14 +152,22 @@ export const getProductsByCategory = async (category) => {
     );
     const products = await auth.json();
     products.forEach((product) => {
-      (product.name =
-        product.name.charAt(0).toUpperCase() + product.name.slice(1)),
-        (product.brand =
-          product.brand.charAt(0).toUpperCase() + product.brand.slice(1)),
-        (product.price = Number(product.price).toLocaleString("pt-BR", {
+      if (product.name && product.name.length > 0) {
+        product.name =
+          product.name.charAt(0).toUpperCase() + product.name.slice(1);
+      }
+
+      if (product.brand && product.brand.length > 0) {
+        product.brand =
+          product.brand.charAt(0).toUpperCase() + product.brand.slice(1);
+      }
+
+      if (product.price && typeof product.price === "string") {
+        product.price = Number(product.price).toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
-        }));
+        });
+      }
     });
     return products;
   }
@@ -175,12 +183,12 @@ export const getCustomersByName = async () => {
         Authorization: `Bearer ${token}`,
       },
     };
-     
+
     let result = await fetch(`${API}/customers/names`, config);
-       result = await result.json();
+    result = await result.json();
     result.forEach((product) => {
-      (product.name =
-        product.name.charAt(0).toUpperCase() + product.name.slice(1))
+      product.name =
+        product.name.charAt(0).toUpperCase() + product.name.slice(1);
     });
     return result;
   }
@@ -232,7 +240,7 @@ export const getBudgets = async () => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-      }
+      },
     };
 
     let result = await fetch(`${API}/budgets`, config);
@@ -249,7 +257,7 @@ export const getProductsByBudgets = async (id) => {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
-      }
+      },
     };
     let result = await fetch(`${API}/products-budgets/budgets/${id}`, config);
     result = await result.json();
@@ -274,7 +282,7 @@ export const setProductsInBudgets = async (body) => {
   }
 };
 
-export const editProductsBudgetById = async (id,body) => {
+export const editProductsBudgetById = async (id, body) => {
   const token = localStorage.getItem("token");
   if (token) {
     const config = {
@@ -290,7 +298,6 @@ export const editProductsBudgetById = async (id,body) => {
     return result;
   }
 };
-
 
 export const getBudgetById = async (id) => {
   const token = localStorage.getItem("token");
@@ -323,6 +330,23 @@ export const deleteProductBudgetById = async (id) => {
     return result;
   }
 };
+
+export const getBudgetsBySellerId = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    let result = await fetch(`${API}/budgets/seller/${id}`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
 // export const getCategories = async () => {
 //   const token = localStorage.getItem("token");
 //   if (token) {

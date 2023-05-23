@@ -16,6 +16,8 @@ const CriarOrcamento = () => {
   const [sellerId, setSellerId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [category, setCategory] = useState("");
+  const [sendCategory, setSendCategory] = useState("");
+
   const [credentials, setCredentials] = useState(false);
   const [status, setStatus] = useState(false);
   useEffect(() => {
@@ -40,13 +42,14 @@ const CriarOrcamento = () => {
         customerId,
         category,
       };
+      const retorno = await setBudget(JSON.stringify(obj));
+      if (retorno.name) {
+        setStatus(true)
+        clear();
+      }
+      setBudgetId(retorno._id);
+      setSendCategory(retorno.category.key);
       setCredentials(true);
-      // const retorno = await setBudget(JSON.stringify(obj));
-      // if (retorno.name) {
-      //   setStatus(true)
-      //   clear();
-      // }
-      setBudgetId("64692ce11784fe940aa7f1e5");
     }
   };
   const clear = () => {
@@ -201,7 +204,9 @@ const CriarOrcamento = () => {
           </div>
         </div>
       </div>
-      {credentials && <Navigate to={`/orcamento/${budgetId}/${category}`} />}
+      {credentials && (
+        <Navigate to={`/orcamento/${budgetId}/${sendCategory}`} />
+      )}
     </>
   );
 };

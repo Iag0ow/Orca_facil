@@ -1,0 +1,46 @@
+.category-box {
+  justify-content: space-between;
+  margin-top: 150px;
+}
+
+.category {
+  width: 100%;
+  height: 250px;
+  transition: 1s;
+  cursor: pointer;
+}
+
+.category:hover {
+  scale: 1.1;
+  transition: 1s;
+}
+.hidraulica {
+  border: 3px solid #5c3236;
+  border-radius: 10px;
+  background-image: url("../../image/hidraulica.png");
+  background-size: cover;
+}
+.eletrica {
+  border: 3px solid #5c3236;
+  border-radius: 10px;
+  background-image: url("../../image/eletrica.png");
+  background-size: cover;
+}
+
+.fundacao {
+  border: 3px solid #5c3236;
+  border-radius: 10px;
+  background-image: url("../../image/fundacao.png");
+  background-size: cover;
+}
+.title-orc {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-size: 58px;
+}
+.categories {
+  font-weight: 300;
+}
+.bottom-margin {
+  margin-bottom: 355px;
+}

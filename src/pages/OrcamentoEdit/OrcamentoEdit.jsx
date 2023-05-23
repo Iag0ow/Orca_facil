@@ -1,5 +1,5 @@
 import React from "react";
-import "./Orcamento.css";
+import "./OrcamentoEdit.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -13,20 +13,22 @@ import {
   setProductsInBudgets,
   updateProduct,
   editProductsBudgetById,
+  getBudgetsBySellerId,
 } from "../../../utils/Config";
 import Menus from "../../components/Menus/Menus";
 import NavBar from "../../components/NavBar/NavBar";
-const Orcamento = () => {
-  const { category } = useParams();
+const OrcamentoEdit = () => {
   const { id } = useParams();
+  const { idBudget } = useParams();
 
   const [error, setError] = useState(null);
+
+  const [category, setcategory] = useState("");
 
   const [products, setProducts] = useState([]);
   const [productsSelected, setProductsSelected] = useState([]);
   const [productDeleted, setProductDeleted] = useState("");
   const [productEdited, setProductEdited] = useState("");
-
 
   const [itemId, setItemId] = useState("");
   const [name, setName] = useState("");
@@ -36,67 +38,73 @@ const Orcamento = () => {
 
   const [productsByBudget, setProductsByBudget] = useState([]);
 
-  const [budgets, setBudgets] = useState([]);
+  const [budgets, setBudgets] = useState(null);
   const [budgetData, setBudgetData] = useState("");
-  const [selectedBudgetId, setSelectedBudgetId] = useState(id);
-
+  const [selectedBudgetId, setSelectedBudgetId] = useState(idBudget);
 
   const [statusAlter, setStatusAlter] = useState(0);
   const [quantity, setQuantity] = useState(1);
-  
-  // useEffect(() => {
-  //     async function fetchData() {
-  //       setSelectedBudgetId(id)
-  //     setProducts(await getProductsByCategory(category));
-  //   }
-  //   fetchData();
-  // }, [updated]);
 
+useEffect(() => {
+  async function fetchData() {
+      const result = await getBudgetById(selectedBudgetId);
+    setBudgetData(result);
+    categoria(result.category.key);
+    console.log(result);
+    }
+    fetchData();
+}, [selectedBudgetId]);
+
+  const categoria = async (categoria) => {
+    setProducts(await getProductsByCategory(categoria));
+  }
+//   useEffect(() => {
+//       async function fetchData() {
+//         setSelectedBudgetId(id)
+//       );
+//     }
+//     fetchData();
+//   }, [updated]);
   useEffect(() => {
     async function fetchData() {
-      setBudgets(await getBudgets());
+      setBudgets(await getBudgetsBySellerId(id));
     }
     fetchData();
   }, [selectedBudgetId]);
+    
 
-  useEffect(() => {
-    async function fetchData() {
-      setBudgetData(await getBudgetById(selectedBudgetId));
-    }
-    fetchData();
-  }, [selectedBudgetId]);
 
   const handleChange = (e) => {
-    setSelectedBudgetId(e.target.value);
+      setSelectedBudgetId(e.target.value);
   };
 
-  useEffect(() => {
-    async function fetchData() {
-      setProductsByBudget(await getProductsByBudgets(selectedBudgetId));
-    }
-    fetchData();
-  }, [statusAlter,quantity, selectedBudgetId, productDeleted, productEdited]);
+    useEffect(() => {
+      async function fetchData() {
+        setProductsByBudget(await getProductsByBudgets(selectedBudgetId));
+      }
+      fetchData();
+    }, [statusAlter, quantity, selectedBudgetId, productDeleted, productEdited]);
 
-  useEffect(() => {
-    async function fetchData() {
-      setProducts(await getProducts(category));
-    }
-    fetchData();
-  }, [selectedBudgetId]);
+  //   useEffect(() => {
+  //       async function fetchData() {
+  //         console.log('teste', budgets[0].category.key);
+  //       setProducts(await getProducts(budgets[0].category.key));
+  //     }
+  //     fetchData();
+  //   }, [selectedBudgetId]);
   const handleSetProducts = async (e) => {
     const obj = {
       budgetId: selectedBudgetId,
       productId: e.target.value,
-      quantity: 1
+      quantity: 1,
     };
     const result = await setProductsInBudgets(obj);
     if (result.statusCode == 400) {
       setError(result.message);
     } else {
-      setStatusAlter(statusAlter + 1) 
+      setStatusAlter(statusAlter + 1);
       setError("");
     }
-    
   };
 
   const handleDelete = async (product) => {
@@ -104,8 +112,8 @@ const Orcamento = () => {
     setError("");
     setStatusAlter(0);
     clearInput();
-  }
-  const editItens = async (id,qnt) => {
+  };
+  const editItens = async (id, qnt) => {
     setProductEdited(await editProductsBudgetById(id, qnt));
   };
   const updateProducts = async (e) => {
@@ -119,34 +127,33 @@ const Orcamento = () => {
     setUpdated(updated.name);
     document.getElementById("closedButton").click();
   };
-const clearInput = () => {
-  const inputs = document.querySelectorAll(".quantity");
-  const inputArray = [...inputs];
-  inputArray.map((input) => (input.value = ""));
-};
-const handleEdit = (e) => {
-  const inputElement = e.target.closest("span").previousElementSibling;
-  inputElement.disabled = false;
-  inputElement.focus();
+  const clearInput = () => {
+    const inputs = document.querySelectorAll(".quantity");
+    const inputArray = [...inputs];
+    inputArray.map((input) => (input.value = ""));
+  };
+  const handleEdit = (e) => {
+    const inputElement = e.target.closest("span").previousElementSibling;
+    inputElement.disabled = false;
+    inputElement.focus();
 
-  const handleInputBlur = async function () {
-    inputElement.disabled = true;
-    const obj = {
-      quantity: parseInt(inputElement.value),
+    const handleInputBlur = async function () {
+      inputElement.disabled = true;
+      const obj = {
+        quantity: parseInt(inputElement.value),
+      };
+      await editItens(inputElement.id, obj);
     };
-    await editItens(inputElement.id, obj);
+
+    const handleInputKeyPress = function (event) {
+      if (event.key === "Enter") {
+        inputElement.blur();
+      }
+    };
+
+    inputElement.addEventListener("blur", handleInputBlur);
+    inputElement.addEventListener("keypress", handleInputKeyPress);
   };
-
-  const handleInputKeyPress = function (event) {
-    if (event.key === "Enter") {
-      inputElement.blur();
-    }
-  };
-
-  inputElement.addEventListener("blur", handleInputBlur);
-  inputElement.addEventListener("keypress", handleInputKeyPress);
-};
-
 
   return (
     <>
@@ -161,12 +168,13 @@ const handleEdit = (e) => {
               onChange={handleChange}
             >
               {budgets &&
-                budgets.map((budgets) => (
-                  <option value={budgets._id} key={budgets._id}>
-                    {budgets.name}
-                  </option>
+                budgets.map(budgett => (
+                    <option value={budgett._id} key={budgett._id}>
+                      {budgett.name}
+                    </option>
                 ))}
             </select>
+
             <div className="col-md-9"></div>
           </div>
           <div className="col-md-3">
@@ -387,4 +395,4 @@ const handleEdit = (e) => {
   );
 };
 
-export default Orcamento;
+export default OrcamentoEdit;
