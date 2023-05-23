@@ -1,7 +1,7 @@
 import React from "react";
 import "./OrcamentoEdit.css";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import {
   getBudgetById,
   getBudgets,
@@ -14,6 +14,8 @@ import {
   updateProduct,
   editProductsBudgetById,
   getBudgetsBySellerId,
+  getBudgetInfoById,
+  getPDF,
 } from "../../../utils/Config";
 import Menus from "../../components/Menus/Menus";
 import NavBar from "../../components/NavBar/NavBar";
@@ -22,8 +24,6 @@ const OrcamentoEdit = () => {
   const { idBudget } = useParams();
 
   const [error, setError] = useState(null);
-
-  const [category, setcategory] = useState("");
 
   const [products, setProducts] = useState([]);
   const [productsSelected, setProductsSelected] = useState([]);
@@ -35,6 +35,7 @@ const OrcamentoEdit = () => {
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [updated, setUpdated] = useState("");
+  const [budgetInfo, setBudgetInfo] = useState("");
 
   const [productsByBudget, setProductsByBudget] = useState([]);
 
@@ -45,19 +46,25 @@ const OrcamentoEdit = () => {
   const [statusAlter, setStatusAlter] = useState(0);
   const [quantity, setQuantity] = useState(1);
 
+
 useEffect(() => {
   async function fetchData() {
       const result = await getBudgetById(selectedBudgetId);
     setBudgetData(result);
-    categoria(result.category.key);
-    console.log(result);
+    category(result.category.key);
+    getBudgetInfo(result._id);
     }
     fetchData();
 }, [selectedBudgetId]);
 
-  const categoria = async (categoria) => {
-    setProducts(await getProductsByCategory(categoria));
+
+  
+  const category = async (category) => {
+    setProducts(await getProductsByCategory(category));
   }
+    const getBudgetInfo = async (id) => {
+      setBudgetInfo(await getBudgetInfoById(id));
+    };
 //   useEffect(() => {
 //       async function fetchData() {
 //         setSelectedBudgetId(id)
@@ -154,7 +161,12 @@ useEffect(() => {
     inputElement.addEventListener("blur", handleInputBlur);
     inputElement.addEventListener("keypress", handleInputKeyPress);
   };
-
+  const handlePDF = async () => {
+    const pdfWindow = window.open();
+    const result = await getPDF(budgetData._id);
+    window.location.href = result.html;
+    pdfWindow.document.write(result.html);
+  }
   return (
     <>
       <NavBar />
@@ -168,10 +180,10 @@ useEffect(() => {
               onChange={handleChange}
             >
               {budgets &&
-                budgets.map(budgett => (
-                    <option value={budgett._id} key={budgett._id}>
-                      {budgett.name}
-                    </option>
+                budgets.map((budgett) => (
+                  <option value={budgett._id} key={budgett._id}>
+                    {budgett.name}
+                  </option>
                 ))}
             </select>
 
@@ -203,6 +215,65 @@ useEffect(() => {
               aria-label="Username"
               disabled
             ></input>
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-3"></div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mt-2"
+              value={`Valor do orçamento: R$ ${
+                budgetInfo && budgetInfo.totalAmount
+              }`}
+              aria-label="Username"
+              disabled
+            ></input>
+          </div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mt-2"
+              value={`Quantidade de produtos: ${
+                budgetInfo && budgetInfo.totalQuantity
+              } und`}
+              aria-label="Username"
+              disabled
+            ></input>
+          </div>
+          <div className="col-md-3">
+            <input
+              type="text"
+              className="form-control mt-2"
+              value={`Items: ${budgetInfo && budgetInfo.count} und`}
+              aria-label="Username"
+              disabled
+            ></input>
+          </div>
+        </div>
+        <div className="row mt-4">
+          <div
+            className="d-flex justify-content-between"
+          >
+            <div className="col-md-3">
+              <button
+                type="button"
+                className="btn btn-primary mb-2"
+                id="closedButton"
+              >
+                Editar dados do orçamento
+              </button>
+            </div>
+            <div>
+              <button
+                type="button"
+                className="btn btn-warning mb-2"
+                id="closedButton"
+                onClick={handlePDF}
+              >
+                Gerar PDF
+              </button>
+            </div>
           </div>
         </div>
         <div className="row mt-2">
@@ -304,10 +375,13 @@ useEffect(() => {
             </table>
           </div>
         </div>
-        <Menus category={category} setProducts={setProducts} />
+        <div className="d-flex justify-content-end">
+          <Link to="/orcamentos" className="btn btn-danger">
+            Voltar
+          </Link>
+        </div>
       </div>
       {/* modal section */}
-
       <div
         className="modal fade"
         id="exampleModal5"

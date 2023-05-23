@@ -347,6 +347,40 @@ export const getBudgetsBySellerId = async (id) => {
   }
 };
 
+export const getBudgetInfoById = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      }
+    };
+
+    let result = await fetch(`${API}/budgets/${id}/amounts`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
+export const getPDF = async (id) => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const config = {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    let result = await fetch(`${API}/budgets/${id}/html`, config);
+    result = await result.json();
+    return result;
+  }
+};
+
 // export const getCategories = async () => {
 //   const token = localStorage.getItem("token");
 //   if (token) {
