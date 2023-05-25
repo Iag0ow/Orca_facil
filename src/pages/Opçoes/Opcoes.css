@@ -3,34 +3,35 @@
   margin-top: 150px;
 }
 
-.category {
+.category2 {
   width: 100%;
-  height: 250px;
+  height: 400px;
   transition: 1s;
   cursor: pointer;
 }
 
-.category:hover {
+.category2:hover {
   scale: 1.1;
   transition: 1s;
 }
-.hidraulica {
+.hidraulica2 {
   border: 3px solid #5c3236;
   border-radius: 10px;
-  background-image: url("../../image/hidraulica.png");
+  background-image: url("../../image/edicaoOrcamento.png");
+  background-color: white;
   background-size: cover;
 }
-.eletrica {
+.eletrica2 {
   border: 3px solid #5c3236;
   border-radius: 10px;
-  background-image: url("../../image/eletrica.png");
+  background-image: url("../../image/orcamento.jpg");
   background-size: cover;
 }
 
-.fundacao {
+.fundacao2 {
   border: 3px solid #5c3236;
   border-radius: 10px;
-  background-image: url("../../image/fundacao.png");
+  background-image: url("../../image/pdf.jpg");
   background-size: cover;
 }
 .title-orc {
@@ -43,4 +44,15 @@
 }
 .bottom-margin {
   margin-bottom: 355px;
+}
+
+.opcoes {
+  display: flex;
+  justify-content: space-evenly;
+}
+@media screen and (max-width: 768px) {
+  .opcoes {
+    display: block;
+  }
+  
 }
