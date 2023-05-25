@@ -166,6 +166,11 @@ const handleEdit = (e) => {
     }
   };
 
+  
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   inputElement.addEventListener("blur", handleInputBlur);
   inputElement.addEventListener("keypress", handleInputKeyPress);
 };
@@ -260,9 +265,14 @@ const handleEdit = (e) => {
                 {productsByBudget &&
                   productsByBudget.map((product, index) => (
                     <tr key={index}>
-                      <td>{product.productId.name}</td>
-                      <td>{product.productId.price}</td>
-                      <td>{product.productId.brand}</td>
+                      <td>{capitalizeFirstLetter(product.productId.name)}</td>
+                      <td>
+                        {product.productId.price.toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })}
+                      </td>
+                      <td>{capitalizeFirstLetter(product.productId.brand)}</td>
                       <td>
                         <div>
                           <input
