@@ -1,4 +1,5 @@
 import React from "react";
+import Swal from "sweetalert2";
 import "./Orcamento.css";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
@@ -100,10 +101,32 @@ const Orcamento = () => {
   };
 
   const handleDelete = async (product) => {
-    setProductDeleted(await deleteProductBudgetById(product));
-    setError("");
-    setStatusAlter(0);
-    clearInput();
+    const swalWithBootstrapButtons = Swal.mixin({
+      customClass: {
+        confirmButton: "btn btn-success ms-3",
+        cancelButton: "btn btn-danger",
+      },
+      buttonsStyling: false,
+    });
+
+    swalWithBootstrapButtons
+      .fire({
+        title: "Deseja realmente excluir este produto?",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Sim, excluir!",
+        cancelButtonText: "Não, cancelar!",
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          setProductDeleted(await deleteProductBudgetById(product));
+          setError("");
+          setStatusAlter(0);
+          clearInput();
+          swalWithBootstrapButtons.fire("Produto deletado com sucesso!");
+        }
+      });
   }
   const editItens = async (id,qnt) => {
     setProductEdited(await editProductsBudgetById(id, qnt));
