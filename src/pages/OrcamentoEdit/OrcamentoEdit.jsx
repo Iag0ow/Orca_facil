@@ -349,13 +349,13 @@ swalWithBootstrapButtons
         <div className="row mt-4">
           <div className="d-flex justify-content-between">
             <div className="col-md-3">
-              <button
+              {/* <button
                 type="button"
                 className="btn btn-primary mb-2"
                 id="closedButton"
               >
                 Editar dados do orçamento
-              </button>
+              </button> */}
             </div>
             <div>
               <button
