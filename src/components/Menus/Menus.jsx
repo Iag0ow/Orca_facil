@@ -2,7 +2,13 @@ import React from "react";
 import "./Menu.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { getProducts, setProduct } from "../../../utils/Config";
+import {
+  formatText,
+  formatPrice,
+  getProducts,
+  setProduct,
+} from "../../../utils/Config";
+import { NumericFormat } from "react-number-format";
 const Menus = ({ category, setProducts }) => {
   const [status, setStatus] = useState(false);
   const [error, setError] = useState("");
@@ -11,16 +17,23 @@ const Menus = ({ category, setProducts }) => {
   const [brand, setBrand] = useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(price.replace("R$", "").replace(".", "").replace(",", "."));
+    let value = price;
+    value = value.replace("R$", "").replace(".", "").replace(",", ".");
     const objRegister = {
       name,
-      price: Number(price),
+      price: parseFloat(value),
       brand,
       category,
     };
+    console.log(objRegister.price)
     const result = await setProduct(objRegister);
     if (result.statusCode == 400) {
       setError(result.message);
     } else {
+      objRegister.name = formatText(name);
+      objRegister.price = formatPrice(price);
+      objRegister.brand = formatText(brand);
       setProducts((prevStatus) => [...prevStatus, objRegister]);
       setName("");
       setPrice("");
@@ -84,14 +97,27 @@ const Menus = ({ category, setProducts }) => {
                 </div>
                 <div className="mb-3">
                   <label className="col-form-label">Preço*</label>
-                  <input
+                  <NumericFormat
                     required
                     onChange={(e) => setPrice(e.target.value)}
                     value={price}
                     type="text"
                     className="form-control"
                     id="recipient-name"
+                    thousandSeparator="."
+                    decimalSeparator=","
+                    decimalScale={2}
+                    fixedDecimalScale={true}
+                    prefix="R$"
                   />
+                  {/* <input
+                    required
+                    onChange={(e) => setPrice(e.target.value)}
+                    value={price}
+                    type="text"
+                    className="form-control"
+                    id="recipient-name"
+                  /> */}
                 </div>
                 <div className="mb-3">
                   <label className="col-form-label">Marca*</label>

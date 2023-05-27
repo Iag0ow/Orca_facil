@@ -74,6 +74,7 @@ export const formatText = (text) => {
 };
 
 export const formatPrice = (price) => {
+  price = price.replace("R$", "").replace(",", "");
   price = Number(price).toLocaleString("pt-BR", {
       style: "currency",
       currency: "BRL",
